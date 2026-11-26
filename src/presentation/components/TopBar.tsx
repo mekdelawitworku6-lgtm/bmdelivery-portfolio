@@ -1,16 +1,24 @@
-import { Bike, LayoutDashboard, RotateCcw, ShoppingBag, Store, UserRound } from 'lucide-react'
+import { Bike, LayoutDashboard, LogOut, RotateCcw, ShoppingBag, Store, UserRound } from 'lucide-react'
+import { accountForRole } from '../../data/demoAccounts'
 import { useDemo } from '../../state/DemoContext'
 import type { Role } from '../../types'
 
-const ROLES: { id: Role; label: string; icon: typeof UserRound }[] = [
-  { id: 'customer', label: 'Customer', icon: UserRound },
-  { id: 'merchant', label: 'Merchant', icon: Store },
-  { id: 'driver', label: 'Driver', icon: Bike },
-  { id: 'admin', label: 'Admin', icon: LayoutDashboard },
-]
+const ROLE_ICONS: Record<Role, typeof UserRound> = {
+  customer: UserRound,
+  merchant: Store,
+  driver: Bike,
+  admin: LayoutDashboard,
+}
 
-export function TopBar({ onOpenCart }: { onOpenCart: () => void }) {
-  const { role, setRole, cartCount, resetDemo } = useDemo()
+interface TopBarProps {
+  onOpenCart: () => void
+  onSwitchRole: () => void
+}
+
+export function TopBar({ onOpenCart, onSwitchRole }: TopBarProps) {
+  const { role, cartCount, resetDemo } = useDemo()
+  const account = accountForRole(role)
+  const RoleIcon = ROLE_ICONS[role]
 
   return (
     <header className="sticky top-0 z-40 border-b border-white/8 bg-[#070b14]/85 backdrop-blur-xl">
@@ -25,29 +33,21 @@ export function TopBar({ onOpenCart }: { onOpenCart: () => void }) {
           </div>
         </div>
 
-        <nav
-          aria-label="Demo roles"
-          className="order-3 flex w-full gap-1 overflow-x-auto rounded-2xl border border-white/8 bg-white/[0.035] p-1 sm:order-none sm:ml-auto sm:w-auto"
+        <div
+          className="flex items-center gap-2 rounded-xl border border-white/10 bg-white/[0.045] px-3 py-2 text-[11px] font-bold"
+          title={account.email}
         >
-          {ROLES.map(({ id, label, icon: Icon }) => (
-            <button
-              key={id}
-              type="button"
-              onClick={() => setRole(id)}
-              aria-current={role === id ? 'page' : undefined}
-              className={`flex items-center gap-1.5 whitespace-nowrap rounded-xl px-3 py-2 text-[11px] font-bold transition sm:px-4 sm:text-xs ${
-                role === id
-                  ? 'bg-gradient-to-r from-brand to-brand-2 text-[#1a1006] shadow-lg'
-                  : 'text-muted hover:bg-white/5 hover:text-white'
-              }`}
-            >
-              <Icon size={14} />
-              {label}
-            </button>
-          ))}
-        </nav>
+          <RoleIcon size={14} style={{ color: account.accent }} />
+          <span className="text-muted">Signed in as</span>
+          <span>{account.label}</span>
+          <span className="ml-1 h-1.5 w-1.5 rounded-full bg-mint" />
+        </div>
 
-        <div className="ml-auto flex items-center gap-2 sm:ml-0">
+        <div className="ml-auto flex items-center gap-2">
+          <button type="button" onClick={onSwitchRole} className="btn-ghost !px-3" title="Back to role selection">
+            <LogOut size={14} />
+            <span className="hidden sm:inline">Switch role</span>
+          </button>
           {role === 'customer' && (
             <button
               type="button"

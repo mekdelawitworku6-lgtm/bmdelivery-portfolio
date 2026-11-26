@@ -9,7 +9,16 @@ A polished, **backend-free** demo of the BMDelivery platform. Everything runs in
 - **Driver** — online toggle, earnings stats, active job with pickup/drop-off details, animated route, and step-by-step delivery completion.
 - **Admin** — GMV/order/driver KPIs, revenue trend, city coverage, and filterable live orders / merchants / drivers tables.
 
-Switch roles from the top navigation. **Reset** restores all demo data. No login, API calls, database or payments are involved.
+The demo opens with a landing page that explains the journey in four steps. Choose a role card to open its pre-filled demo login form (any password works), then explore that role's full dashboard. Use **Switch role** in the top bar to go back and sign in as someone else, and **Reset** to restore all demo data. No real accounts, API calls, database or payments are involved.
+
+### Demo accounts
+
+| Role | Email | Password |
+|---|---|---|
+| Customer | `customer@demo.bmdelivery.com` | `Demo@12345` |
+| Merchant | `merchant@spicevault.com` | `Demo@12345` |
+| Driver | `driver@danielk.com` | `Demo@12345` |
+| Admin | `admin@bmdelivery.com` | `Demo@12345` |
 
 ## Tech stack
 
@@ -18,6 +27,7 @@ React + TypeScript + Vite + Tailwind CSS v4 + lucide-react. All state lives in a
 ## Run locally
 
 ```bash
+cd apps/portfolio-demo
 npm install
 npm run dev
 ```
@@ -33,15 +43,16 @@ npm run preview
 
 ### Option A — Blueprint (recommended)
 
-1. In Render, click **New + → Blueprint** and select this repository (`bmdelivery-portfolio`).
-2. Render reads the root [`render.yaml`](render.yaml) and creates the static site `bmdelivery-portfolio`.
-3. Open the generated `bmdelivery-portfolio.onrender.com` URL.
+1. Push this repository to GitHub/GitLab.
+2. In Render, click **New + → Blueprint** and select the repository.
+3. Render reads the root [`render.yaml`](../../render.yaml) and creates the static site.
+4. Open the generated `bm-delivery-portfolio-demo.onrender.com` URL.
 
 ### Option B — Manual static site
 
 1. **New + → Static Site**, select the repository.
 2. Set:
-   - **Root Directory**: leave as repo root (`.`)
+   - **Root Directory**: `apps/portfolio-demo`
    - **Build Command**: `npm ci && npm run build`
    - **Publish Directory**: `dist`
    - **Environment**: `NODE_VERSION = 22`
