@@ -1,5 +1,6 @@
 services:
-  - type: static
+  - type: web
+    runtime: static
     name: bmdelivery-portfolio
     buildCommand: npm ci && npm run build
     staticPublishPath: dist
